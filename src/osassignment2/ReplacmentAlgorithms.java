@@ -15,7 +15,6 @@ public class ReplacmentAlgorithms {
 
     int referenceString[];
     int pageFrames[];
-    
 
     public ReplacmentAlgorithms() {
         Random rand = new Random();
@@ -25,7 +24,7 @@ public class ReplacmentAlgorithms {
         }
         pageFrames = new int[rand.nextInt(20) + 1];
         Arrays.fill(pageFrames, -1);
-        
+
     }
 
     public ReplacmentAlgorithms(int referenceString[], int pageFramesSize) {
@@ -66,8 +65,6 @@ public class ReplacmentAlgorithms {
         pageFrames = new int[rand.nextInt(20) + 1];
         Arrays.fill(pageFrames, -1);
     }
-
-    
 
     public int FIFO() {
         int misses = 0;
@@ -147,7 +144,7 @@ public class ReplacmentAlgorithms {
         return misses;
     }
 
-    public int LFU(){
+    public int LFU() {
         int misses = 0;
         ArrayList<Integer> fifo = new ArrayList<Integer>();
         int count[] = new int[pageFrames.length];
@@ -176,37 +173,37 @@ public class ReplacmentAlgorithms {
             }
             int leastCount = count[0];
             int leastCountIndex = 0;
-            for (int p = 0; p < count.length; p++){
-                if (count[p] < leastCount){
+            for (int p = 0; p < count.length; p++) {
+                if (count[p] < leastCount) {
                     leastCount = count[p];
                     leastCountIndex = p;
                 }
             }
             ArrayList<Integer> leastCountsValues = new ArrayList<Integer>();
-            for (int l = 0; l < count.length; l++){
-                if (count[l] == count[leastCountIndex]){
+            for (int l = 0; l < count.length; l++) {
+                if (count[l] == count[leastCountIndex]) {
                     leastCountsValues.add(pageFrames[l]);
                 }
             }
-            if (leastCountsValues.size() > 1){
+            if (leastCountsValues.size() > 1) {
                 System.out.println("More than one with least count");
-                for (int k = 0; k < leastCountsValues.size(); k++){
+                for (int k = 0; k < leastCountsValues.size(); k++) {
                     System.out.println("Value " + (k + 1) + ": " + leastCountsValues.get(k));
                 }
                 int index = 0;
                 boolean firstIndexIsValid = false;
                 int firstIndex = -1;
-                while(firstIndexIsValid == false){
+                while (firstIndexIsValid == false) {
                     firstIndex = fifo.get(0);
                     fifo.remove(0);
-                    for (int n = 0; n < leastCountsValues.size(); n++){
-                        if (pageFrames[firstIndex] == leastCountsValues.get(n)){
+                    for (int n = 0; n < leastCountsValues.size(); n++) {
+                        if (pageFrames[firstIndex] == leastCountsValues.get(n)) {
                             firstIndexIsValid = true;
                             break;
                         }
                     }
                 }
-                
+
                 System.out.println("FIFO: " + pageFrames[firstIndex]);
 //                for (int p = 0; p < leastCountsValues.size(); p++) {
 //                    if (leastCountsValues.get(p) == pageFrames[firstIndex]) {
@@ -225,8 +222,7 @@ public class ReplacmentAlgorithms {
                 count[firstIndex] = 1;
                 misses++;
                 this.printPageFrames();
-            }
-            else{
+            } else {
                 pageFrames[leastCountIndex] = referenceString[i];
                 count[leastCountIndex] = 1;
                 misses++;
@@ -235,8 +231,8 @@ public class ReplacmentAlgorithms {
         }
         return misses;
     }
-    
-    public int optimal(){
+
+    public int optimal() {
         int misses = 0;
         outerloop:
         for (int i = 0; i < referenceString.length; i++) {
@@ -279,6 +275,88 @@ public class ReplacmentAlgorithms {
             System.out.println("Furthest index: " + FurthestIndex);
             pageFrames[FurthestIndex] = referenceString[i];
             misses++;
+        }
+        return misses;
+    }
+
+    public int secondChance() {
+        int misses = 0;
+        int referenceBits[] = new int[pageFrames.length];
+        int j = 0;
+        int offset = 0;
+        
+        outerloop:
+        for (int i = 0; i < referenceString.length; i++) {
+            for (int k = 0; k < pageFrames.length; k++){
+                if (pageFrames[k] == referenceString[i]) {
+                    
+                    referenceBits[k] = 1;
+                    System.out.println("Set Reference bit of element " + k + " = 1");
+                    printPageFrames();
+                     System.out.println("---------------------------------------");
+                    continue outerloop;
+                }
+            }
+            for (int q = 0; q < pageFrames.length; q++){
+                if (pageFrames[q] == -1) {
+                    pageFrames[q] = referenceString[i];
+                    referenceBits[q] = 0;
+                             System.out.println("Set Reference bit of element " + q + " = 0");
+                    misses++;
+                    printPageFrames();
+                    System.out.println("---------------------------------------");
+                    continue outerloop;
+                }
+            }
+            while (true) {
+                if (j == 3){
+                    j = 0;
+                }
+                System.out.println(j);
+                System.out.println("Reference bit of element " + j + " = " + referenceBits[j]);
+                if (referenceBits[j] == 0){
+                    pageFrames[j] = referenceString[i];
+                    referenceBits[j] = 0;
+                    System.out.println("Set Reference bit of element " + j + " = 0");
+                    misses++;
+                    
+                    j -= offset;
+                    j++;
+                    printPageFrames();
+                    System.out.println("---------------------------------------");
+                    continue outerloop;
+                }
+                else{
+                    referenceBits[j] = 0;
+                    System.out.println("Set Reference bit of element " + j + " = 0");
+                    j++;
+                    offset++;
+                }
+
+//            int FurthestIndex = 0;
+//            int maxSteps = 0;
+//            for (int k = 0; k < pageFrames.length; k++) {
+//                int steps = 0;
+//                for (int p = i + 1; p < referenceString.length; p++) {
+//                    if (referenceString[p] != pageFrames[k]) {
+//                        steps++;
+//                        if (steps > maxSteps) {
+//                            FurthestIndex = k;
+//                            maxSteps = steps;
+//                        }
+//                    } else {
+//                        if (steps > maxSteps) {
+//                            FurthestIndex = k;
+//                        }
+//                        break;
+//                    }
+//
+//                }
+//            }
+//            System.out.println("Furthest index: " + FurthestIndex);
+//            pageFrames[FurthestIndex] = referenceString[i];
+//            misses++;
+            }
         }
         return misses;
     }

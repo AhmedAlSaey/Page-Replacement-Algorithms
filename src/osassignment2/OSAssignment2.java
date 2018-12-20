@@ -17,10 +17,10 @@ public class OSAssignment2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int referenceString[] = {7,0,1,2,0,3,0,4,2,3,0,3,2,1,2};
+        int referenceString[] = {2, 3, 2, 1, 5, 2, 4, 5, 3, 2, 5, 2 };
         ReplacmentAlgorithms x = new ReplacmentAlgorithms(referenceString,3);
         x.printReferenceString();
-        System.out.println(x.LFU());
+        System.out.println(x.secondChance());
         x.printPageFrames();
         x.resetPageFrames();
 //        int LRUIndex = 0;
