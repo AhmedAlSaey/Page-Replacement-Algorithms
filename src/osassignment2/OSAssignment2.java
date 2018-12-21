@@ -1,61 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package osassignment2;
 
 import java.util.ArrayList;
 
 /**
  *
- * @author Ahmed
+ * @author Ahmed AlSaey
  */
 public class OSAssignment2 {
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        int referenceString[] = {2, 3, 2, 1, 5, 2, 4, 5, 3, 2, 5, 2 };
-        ReplacmentAlgorithms x = new ReplacmentAlgorithms(referenceString,3);
-        x.printReferenceString();
-        System.out.println(x.secondChance());
-        x.printPageFrames();
-        x.resetPageFrames();
-//        int LRUIndex = 0;
-//        int maxSteps = -1;
-//        ArrayList<Integer> lru = new ArrayList<Integer>();
-//        lru.add(7);
-//        lru.add(0);
-//        lru.add(1);
-//        lru.add(2);
-//        lru.add(0);
-//        lru.add(3);
-//        lru.add(0);
-//        lru.add(4);
-//        int pageFrames[] = {4,0,3};
-//        for (int k = 0; k < pageFrames.length; k++) {
-//            int steps = 0;
-//            for (int p = lru.size() - 1; p >= 0; p--) {
-//                if (lru.get(p) != pageFrames[k]) {
-//                    steps++;
-//                    if (steps > maxSteps) {
-//                    LRUIndex = k;
-//                    maxSteps = steps;
-//                    }
-//                }
-//                else{
-//                    if (steps > maxSteps) {
-//                    LRUIndex = k;
-//                    maxSteps = steps;
-//                    }
-//                    break;
-//                }
-//
-//            }
-//        }
-//        System.out.println(LRUIndex);
+//        Uncomment below code for a fixed example (lecture example).
+        int referenceString[] = {7,0,1,2,0,3,0,4,2,3,0,3,0,3,2,1,2,0,1,7,0,1};
+        int numberOfPageFrames = 3;
+        ReplacmentAlgorithms x = new ReplacmentAlgorithms(referenceString,numberOfPageFrames);
+//        System.out.println("FIFO misses: " + x.FIFO());
+//        System.out.println(x.LFU());
+//        System.out.println("Least recently used misses: " + x.LRU());
+//        System.out.println(x.optimal());
+//        System.out.println(x.secondChance());
+//        System.out.println("Enhance second chance misses: " + x.enhancedSecondChance());
+
+//        --------------------------------------------
+
+//        Uncomment below code for a random example.
+//        ReplacmentAlgorithms x = new ReplacmentAlgorithms();
+//        System.out.println("FIFO misses: " + x.FIFO());
+//        System.out.println(x.LFU());
+//        System.out.println("Least recently used misses: " + x.LRU());
+//        System.out.println(x.optimal());
+//        System.out.println(x.secondChance());
+//        System.out.println("Enhance second chance misses: " + x.enhancedSecondChance());
     }
     
 }
