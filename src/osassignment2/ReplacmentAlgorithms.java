@@ -41,7 +41,7 @@ public class ReplacmentAlgorithms {
         nextVictimPointer = 0;
     }
     
-//Those are the main functions, othe functions are just supporting functions for testing and printing information <<<<<<<<<<<<<<<<<<<<<<<<<<
+//Those are the main functions, other functions are just supporting functions for testing and printing information <<<<<<<<<<<<<<<<<<<<<<<<<<
     
     public int FIFO() {
         int misses = 0;
@@ -115,8 +115,8 @@ public class ReplacmentAlgorithms {
                 }
             }
             System.out.println("Least recently used value is " + pageFrames[LRUIndex] + "\n");
-            printInformationLRU(i);
             pageFrames[LRUIndex] = referenceString[i];
+            printInformationLRU(i);
             misses++;
         }
         reset();
@@ -133,6 +133,7 @@ public class ReplacmentAlgorithms {
             for (int j = 0; j < pageFrames.length; j++) {
                 if (pageFrames[j] == referenceString[i]) {
                     count[j]++;
+                    printInformationLFU(referenceString[i], count, fifo);
                     continue outerloop;
                 }
             }
@@ -142,6 +143,7 @@ public class ReplacmentAlgorithms {
                     count[y]++;
                     fifo.add(y);
                     misses++;
+                    printInformationLFU(referenceString[i], count, fifo);
                     continue outerloop;
                 }
             }
@@ -177,10 +179,12 @@ public class ReplacmentAlgorithms {
                 fifo.add(firstIndex);
                 count[firstIndex] = 1;
                 misses++;
+                printInformationLFU(referenceString[i], count, fifo);
             } else {
                 pageFrames[leastCountIndex] = referenceString[i];
                 count[leastCountIndex] = 1;
                 misses++;
+                printInformationLFU(referenceString[i], count, fifo);
             }
         }
         reset();
@@ -193,6 +197,7 @@ public class ReplacmentAlgorithms {
         for (int i = 0; i < referenceString.length; i++) {
             for (int j = 0; j < pageFrames.length; j++) {
                 if (pageFrames[j] == referenceString[i]) {
+                    printInformationOptimal(referenceString[i], i);
                     continue outerloop;
                 }
             }
@@ -200,6 +205,7 @@ public class ReplacmentAlgorithms {
                 if (pageFrames[y] == -1) {
                     pageFrames[y] = referenceString[i];
                     misses++;
+                    printInformationOptimal(referenceString[i], i);
                     continue outerloop;
                 }
             }
@@ -225,6 +231,7 @@ public class ReplacmentAlgorithms {
             }
             pageFrames[FurthestIndex] = referenceString[i];
             misses++;
+            printInformationOptimal(referenceString[i], i);
         }
         reset();
         return misses;
@@ -239,6 +246,7 @@ public class ReplacmentAlgorithms {
             for (int j = 0; j < pageFrames.length; j++) {
                 if (pageFrames[j] == referenceString[i]) {
                     referenceBits[j] = 1;
+                    printInformationSCA(referenceString[i], secondChance);
                     continue outerloop;
                 }
             }
@@ -248,6 +256,7 @@ public class ReplacmentAlgorithms {
                     secondChance.add(y);
                     referenceBits[y] = 0;
                     misses++;
+                    printInformationSCA(referenceString[i], secondChance);
                     continue outerloop;
                 }
             }
@@ -266,6 +275,7 @@ public class ReplacmentAlgorithms {
                     secondChance.remove(loopIndex);
                     secondChance.add(firstIndex);
                     misses++;
+                    printInformationSCA(referenceString[i], secondChance);
                     break;
                 }
             }
@@ -278,12 +288,11 @@ public class ReplacmentAlgorithms {
         int misses = 0;
         outerloop:
         for (int i = 0; i < referenceString.length; i++) {
-            printCurrentRererenceString(i);
             for (int j = 0; j < pageFrames.length; j++) {
                 if (pageFrames[j] == referenceString[i]) {
                     referenceBits[j] = 1;
                     
-                    printInformationESCA();
+                    printInformationESCA(referenceString[i]);
                     continue outerloop;
                 }
             }
@@ -295,7 +304,7 @@ public class ReplacmentAlgorithms {
                     modifyBits[y] = rand.nextInt(2);
                     misses++;
                     nextVictimPointer = nextVictimPointer == pageFrames.length - 1 ? 0: nextVictimPointer + 1;
-                    printInformationESCA();
+                    printInformationESCA(referenceString[i]);
                     continue outerloop;
                 }
             }
@@ -322,7 +331,7 @@ public class ReplacmentAlgorithms {
                         modifyBits[zeroZeroLoopPointer] = rand.nextInt(2);
                         nextVictimPointer = (zeroZeroLoopPointer == pageFrames.length - 1 ? 0 : zeroZeroLoopPointer + 1);
                         misses++;
-                        printInformationESCA();
+                        printInformationESCA(referenceString[i]);
                         done = true;
                     } else {
                         zeroZeroLoopPointer++;
@@ -345,7 +354,7 @@ public class ReplacmentAlgorithms {
                         modifyBits[zeroOneLoopPointer] = rand.nextInt(2);
                         nextVictimPointer = (zeroOneLoopPointer == pageFrames.length - 1 ? 0 : zeroOneLoopPointer + 1);
                         misses++;
-                        printInformationESCA();
+                        printInformationESCA(referenceString[i]);
                         done = true;
                     } else if (referenceBits[zeroOneLoopPointer] == 1) {
                         referenceBits[zeroOneLoopPointer] = 0;
@@ -365,8 +374,10 @@ public class ReplacmentAlgorithms {
     
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     
-    public void printInformationESCA(){
+    public void printInformationESCA(int value){
+        System.out.println("Value to insert: " + value + "\n");
         for (int i = 0; i < pageFrames.length; i++){
+            
             String output = "Element number " + i + " in page frames = " + pageFrames[i] + ", it's r bit is " + referenceBits[i] + " and it's m bit is " + modifyBits[i];
             
             System.out.println(output);
@@ -385,7 +396,7 @@ public class ReplacmentAlgorithms {
         System.out.println();
         String FIFOOrder = "Current FIFO order (left value is FIFO): [";
         for (int j = 0; j < fifo.size(); j++){
-            FIFOOrder += fifo.get(j) + ",";
+            FIFOOrder += pageFrames[fifo.get(j)] + ",";
         }
         FIFOOrder = FIFOOrder.substring(0, FIFOOrder.length() - 1);
         FIFOOrder += "]";
@@ -401,7 +412,7 @@ public class ReplacmentAlgorithms {
         }
         System.out.println();
         String useOrder = "Previous use order (left value is used first): [";
-        for (int j = 0; j < index; j++){
+        for (int j = 0; j <= index; j++){
             useOrder += referenceString[j] + ",";
         }
         if (!useOrder.endsWith("[")){
@@ -410,6 +421,77 @@ public class ReplacmentAlgorithms {
         useOrder += "]";
         System.out.println(useOrder);
         System.out.println("----------------------------------------------");
+    }
+    
+    public void printInformationLFU(int value, int count[], ArrayList<Integer> fifo){
+        System.out.println("Value to insert: " + value + "\n");
+        for (int i = 0; i < pageFrames.length; i++){
+            String output = "Element number " + i + " in page frames = " + pageFrames[i];
+            
+            System.out.println(output);
+        }
+        System.out.println();
+        String countString = "Usage frequency of elements in page frame (leftmost is first element in page frame): [";
+        for (int j = 0; j < count.length; j++){
+            countString += count[j] + ",";
+        }
+        if (!countString.endsWith("[")){
+        countString = countString.substring(0, countString.length() - 1);
+        }
+        countString += "]";
+        System.out.println(countString + "\n");
+        String fifoString = "FIFO  order (leftmost is  first in/out): [";
+        for (int j = 0; j < fifo.size(); j++){
+            fifoString += pageFrames[fifo.get(j)] + ",";
+        }
+        if (!fifoString.endsWith("[")){
+        fifoString = fifoString.substring(0, fifoString.length() - 1);
+        }
+        fifoString += "]";
+        System.out.println(fifoString + "\n");
+        System.out.println("----------------------------------------------");
+    }
+    
+    public void printInformationOptimal(int value, int index){
+        System.out.println("Value to insert: " + value + "\n");
+        for (int i = 0; i < pageFrames.length; i++){
+            String output = "Element number " + i + " in page frames = " + pageFrames[i];
+            
+            System.out.println(output);
+        }
+        System.out.println();
+        String useOrder = "Next reference order (left value will be referenced first): [";
+        for (int j = index + 1; j < referenceString.length; j++){
+            useOrder += referenceString[j] + ",";
+        }
+        if (!useOrder.endsWith("[")){
+        useOrder = useOrder.substring(0, useOrder.length() - 1);
+        }
+        useOrder += "]";
+        System.out.println(useOrder);
+        System.out.println("----------------------------------------------");
+    }
+    
+    public void printInformationSCA(int value, ArrayList<Integer> fifo){
+        System.out.println("Value to insert: " + value + "\n");
+        for (int i = 0; i < pageFrames.length; i++){
+            
+            String output = "Element number " + i + " in page frames = " + pageFrames[i] + ", it's r bit is " + referenceBits[i];
+            
+            System.out.println(output);
+        }
+        System.out.println();
+        String fifoString = "FIFO  order (leftmost is  first in/out): [";
+        for (int j = 0; j < fifo.size(); j++){
+            fifoString += pageFrames[fifo.get(j)] + ",";
+        }
+        if (!fifoString.endsWith("[")){
+        fifoString = fifoString.substring(0, fifoString.length() - 1);
+        }
+        fifoString += "]";
+        System.out.println(fifoString + "\n");
+        System.out.println("----------------------------------------------");
+        
     }
     
     public void printReferenceString() {

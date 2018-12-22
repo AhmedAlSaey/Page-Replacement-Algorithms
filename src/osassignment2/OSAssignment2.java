@@ -13,21 +13,21 @@ public class OSAssignment2 {
         int numberOfPageFrames = 3;
         ReplacmentAlgorithms x = new ReplacmentAlgorithms(referenceString,numberOfPageFrames);
 //        System.out.println("FIFO misses: " + x.FIFO());
-//        System.out.println(x.LFU());
+//        System.out.println("Least frequently used misses: " + x.LFU());
 //        System.out.println("Least recently used misses: " + x.LRU());
-//        System.out.println(x.optimal());
-//        System.out.println(x.secondChance());
-//        System.out.println("Enhance second chance misses: " + x.enhancedSecondChance());
+//        System.out.println("Optimal misses: " + x.optimal());
+//        System.out.println("Second chance misses: " + x.secondChance());
+        System.out.println("Enhance second chance misses: " + x.enhancedSecondChance());
 
 //        --------------------------------------------
 
 //        Uncomment below code for a random example.
 //        ReplacmentAlgorithms x = new ReplacmentAlgorithms();
 //        System.out.println("FIFO misses: " + x.FIFO());
-//        System.out.println(x.LFU());
+//        System.out.println("Least frequently used misses: " + x.LFU());
 //        System.out.println("Least recently used misses: " + x.LRU());
-//        System.out.println(x.optimal());
-//        System.out.println(x.secondChance());
+//        System.out.println("Optimal misses: " + x.optimal());
+//        System.out.println("Second chance misses: " + x.secondChance());
 //        System.out.println("Enhance second chance misses: " + x.enhancedSecondChance());
     }
     
