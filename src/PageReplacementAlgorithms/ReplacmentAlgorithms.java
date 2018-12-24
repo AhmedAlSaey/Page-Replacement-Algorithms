@@ -270,7 +270,7 @@ public class ReplacmentAlgorithms {
             }
             int loopIndex = 0;
             while (true) {
-                if (loopIndex == pageFrames.length - 1) {
+                if (loopIndex == secondChance.size()) {
                     loopIndex = 0;
                 }
                 int firstIndex = secondChance.get(loopIndex);
@@ -298,8 +298,6 @@ public class ReplacmentAlgorithms {
         for (int i = 0; i < referenceString.length; i++) {
             for (int j = 0; j < pageFrames.length; j++) {
                 if (pageFrames[j] == referenceString[i]) {
-                    referenceBits[j] = 1;
-                    
                     printInformationESCA(referenceString[i]);
                     continue outerloop;
                 }
