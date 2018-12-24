@@ -21,11 +21,12 @@ public class ReplacmentAlgorithms {
 
     public ReplacmentAlgorithms() {
         Random rand = new Random();
-        referenceString = new int[rand.nextInt(81) + 20]; //Assume max size of reference string is 100 and minimum is less than the max possible size of reference string
+        pageFrames = new int[rand.nextInt(20) + 1];
+        referenceString = new int[rand.nextInt(300 - pageFrames.length) + pageFrames.length + 1]; //Assume max size of reference string is 100 and minimum is less than the max possible size of reference string
         for (int i = 0; i < referenceString.length; i++) {
             referenceString[i] = rand.nextInt(100);
         }
-        pageFrames = new int[rand.nextInt(20) + 1];
+        
         Arrays.fill(pageFrames, -1);
         referenceBits = new int[pageFrames.length];
         modifyBits = new int[pageFrames.length];
