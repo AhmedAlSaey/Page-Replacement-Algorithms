@@ -165,14 +165,14 @@ public class ReplacmentAlgorithms {
             if (leastCountsValues.size() > 1) {
                 int index = 0;
                 boolean firstIndexIsValid = false;
-                int firstIndex = -1;
-                while (firstIndexIsValid == false) {
-                    firstIndex = fifo.get(0);
-                    fifo.remove(0);
+                int firstIndex = 0;
+                fifoLoop:
+                for (int y = 0; y < fifo.size(); y++) {
+                    firstIndex = fifo.get(y);
                     for (int n = 0; n < leastCountsValues.size(); n++) {
                         if (pageFrames[firstIndex] == leastCountsValues.get(n)) {
-                            firstIndexIsValid = true;
-                            break;
+                            fifo.remove(y);
+                            break fifoLoop;
                         }
                     }
                 }
@@ -184,6 +184,13 @@ public class ReplacmentAlgorithms {
             } else {
                 pageFrames[leastCountIndex] = referenceString[i];
                 count[leastCountIndex] = 1;
+                for (int f = 0; f < fifo.size(); f++){
+                    if (fifo.get(f) == leastCountIndex){
+                        fifo.remove(f);
+                        fifo.add(leastCountIndex);
+                        break;
+                    }
+                }
                 misses++;
                 printInformationLFU(referenceString[i], count, fifo);
             }
