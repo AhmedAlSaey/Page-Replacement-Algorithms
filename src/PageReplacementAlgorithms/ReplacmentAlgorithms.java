@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package osassignment2;
+package PageReplacementAlgorithms;
 
 import java.sql.Time;
 import java.time.Clock;
