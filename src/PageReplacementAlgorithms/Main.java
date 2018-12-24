@@ -14,10 +14,10 @@ public class Main {
         ReplacmentAlgorithms x = new ReplacmentAlgorithms(referenceString,numberOfPageFrames);
 //        System.out.println("FIFO misses: " + x.FIFO());
 //        System.out.println("Least frequently used misses: " + x.LFU());
-//        System.out.println("Least recently used misses: " + x.LRU());
+        System.out.println("Least recently used misses: " + x.LRU());
 //        System.out.println("Optimal misses: " + x.optimal());
 //        System.out.println("Second chance misses: " + x.secondChance());
-        System.out.println("Enhance second chance misses: " + x.enhancedSecondChance());
+//        System.out.println("Enhance second chance misses: " + x.enhancedSecondChance());
 
 //        --------------------------------------------
 
